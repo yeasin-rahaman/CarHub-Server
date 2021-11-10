@@ -1,4 +1,4 @@
-<h1>CAR HUB</h1>
+<h1>CAR HUB SERVER</h1>
 
 <h2> Click to see : <a href="https://car-hub-bd.netlify.app/">Live Site</a> </h2>
 
