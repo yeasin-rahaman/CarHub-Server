@@ -48,8 +48,8 @@ async function run() {
         })
 
         // get my orders 
-        app.get('/myOrder/:uid', async (req, res) => {
-            const result = await ordersCollection.find({ uid: req.params.uid }).toArray()
+        app.get('/myOrder/:email', async (req, res) => {
+            const result = await ordersCollection.find({ email: req.params.email }).toArray()
             res.send(result)
         })
 
@@ -102,7 +102,6 @@ async function run() {
         // POST API
 
         app.post('/services', async (req, res) => {
-
             const service = req.body;
             const result = await servicesCollection.insertOne(service);
             res.json(result);
