@@ -64,11 +64,28 @@ async function run() {
             res.send(result);
         })
 
+
+
+
+
+        // cancel order 
+
+        app.delete('/cancelOrder/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
+            res.json(result);
+            console.log(result)
+
+        })
+
+
         // add review 
         app.post('/addSReview', async (req, res) => {
             const result = await customerReviewCollection.insertOne(req.body)
             res.send(result)
         })
+
 
         // get all review 
         app.get('/review', async (req, res) => {
@@ -86,13 +103,26 @@ async function run() {
 
 
 
-        // POST API
+        // POST services
         app.post('/services', async (req, res) => {
             const service = req.body;
             const result = await servicesCollection.insertOne(service);
             res.json(result);
 
         });
+
+
+        // Delete service 
+
+        app.delete('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.json(result);
+            console.log(result)
+
+        })
+
 
         // make a user admin 
         app.put("/makeAdmin", async (req, res) => {
@@ -119,44 +149,27 @@ async function run() {
 
 
 
-        //  update order status
-        // app.put("/statusUpdate/:id", async (req, res) => {
+        // update status 
 
-        //     const filter = { _id: ObjectId(req.params.id) };
-        //     console.log(filter)
-        //     const result = await userCollection.updateOne(filter, {
-        //         $set: {
-        //             status: req.body.status,
-        //         },
-        //     });
-        //     res.send(result);
-        //     console.log(result);
-        // })
+        app.put("/statusUpdate/:id", async (req, res) => {
 
-
-        // Delete service 
-
-        app.delete('/services/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await servicesCollection.deleteOne(query);
-            res.json(result);
-
-        })
+            const filter = { _id: ObjectId(req.params.id) };
+            console.log(req.params.id);
+            console.log(req.body.status);
+            const result = await ordersCollection.updateOne(filter, {
+                $set: {
+                    status: req.body.status,
+                },
+            });
+            // const result = ordersCollection.find(filter)
 
 
+            console.log(req.body.status);
+            console.log(req.params.id);
+            console.log(result);
+            res.send(result);
 
-
-        // cancel order 
-        // app.delete('/cancelOrder/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     console.log(id)
-        //     const query = { _id: ObjectId(id) };
-        //     const result = await userCollection.deleteOne(query);
-        //     res.json(result);
-
-        // })
-
+        });
     }
     finally {
         // await client.close()
