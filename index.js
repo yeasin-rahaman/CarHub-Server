@@ -33,7 +33,6 @@ async function run() {
         // Get singel Service
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
-            console.log('getting specific service', id);
             const query = { _id: ObjectId(id) };
             const service = await servicesCollection.findOne(query);
             res.json(service)
@@ -75,7 +74,7 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await ordersCollection.deleteOne(query);
             res.json(result);
-            console.log(result)
+
 
         })
 
@@ -119,14 +118,14 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await servicesCollection.deleteOne(query);
             res.json(result);
-            console.log(result)
+
 
         })
 
 
         // make a user admin 
         app.put("/makeAdmin", async (req, res) => {
-            console.log(req.body);
+
             const filter = { email: req.body.email };
             const result = await userCollection.find(filter).toArray();
             if (result) {
@@ -143,32 +142,24 @@ async function run() {
             const result = await userCollection
                 .find({ email: req.params.email })
                 .toArray();
-            console.log(result);
+
             res.send(result);
         });
 
 
 
-        // update status 
+        // update order status 
 
         app.put("/statusUpdate/:id", async (req, res) => {
 
             const filter = { _id: ObjectId(req.params.id) };
-            console.log(req.params.id);
-            console.log(req.body.status);
+
             const result = await ordersCollection.updateOne(filter, {
                 $set: {
                     status: req.body.status,
                 },
             });
-            // const result = ordersCollection.find(filter)
-
-
-            console.log(req.body.status);
-            console.log(req.params.id);
-            console.log(result);
             res.send(result);
-
         });
     }
     finally {
